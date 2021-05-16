@@ -15,25 +15,25 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export JDK_HOME=$JAVA_HOME
 
 sudo apt install mercurial -y
-hg clone http://hg.openjdk.java.net/openjfx/11-dev/rt
+sudo hg clone http://hg.openjdk.java.net/openjfx/11-dev/rt
 
 cd rt
-chmod a+x gradlew
-mkdir /usr/img
-dd if=/dev/zero of=/usr/img/swap bs=1024 count=4096000
-mkswap /usr/img/swap
-swapon /usr/img/swap
+sudo chmod a+x gradlew
+sudo mkdir /usr/img
+sudo dd if=/dev/zero of=/usr/img/swap bs=1024 count=4096000
+sudo mkswap /usr/img/swap
+sudo swapon /usr/img/swap
 
 ./gradlew -PCOMPILE_WEBKIT=true
 
 
-git clone https://github.com/JetBrains/JetBrainsRuntime.git
+sudo git clone https://github.com/JetBrains/JetBrainsRuntime.git
 
 
 cd JetBrainsRuntime
-git checkout cfc3e87f2ac27a0b8c78c729c113aa52535feff6
-wget https://raw.githubusercontent.com/prehonor/myJetBrainsRuntime/master/idea.patch
-git apply idea.patch
+sudo git checkout cfc3e87f2ac27a0b8c78c729c113aa52535feff6
+sudo wget https://raw.githubusercontent.com/prehonor/myJetBrainsRuntime/master/idea.patch
+sudo git apply idea.patch
 
 
 sudo apt install autoconf make build-essential libx11-dev \ 
@@ -42,11 +42,11 @@ sudo apt install autoconf make build-essential libx11-dev \
 	libasound2-dev -y
 
 
-sh ./configure --disable-warnings-as-errors  --with-import-modules=_path_to_jfx-dev_/rt/build/modular-sdk 
-make images
+sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=_path_to_jfx-dev_/rt/build/modular-sdk 
+sudo ake images
 
 
 cd path_to_JetBrainsRuntime/JetBrainsRuntime/build/linux-x86_64-normal-server-release/images
-mv jdk jbr
+sudo mv jdk jbr
 
 
