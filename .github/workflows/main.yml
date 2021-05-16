@@ -8,6 +8,6 @@ jobs:
       - name: Run build script
         run: |
             pwd
-            ls
+            ls -a
 
 
