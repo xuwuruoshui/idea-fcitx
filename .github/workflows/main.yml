@@ -2,7 +2,7 @@ name: Build Intellij Idea Fcitx
  
 on: push
 jobs:
-  compile-fcitx:
+  compile-fcitx: 
     runs-on: ubuntu-latest
     steps:
       - name: Run build script
