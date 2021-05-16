@@ -1,6 +1,9 @@
 name: Deploy Intellij Idea Fcitx
  
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   compile-fcitx:
     runs-on: ubuntu-latest
