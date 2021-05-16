@@ -1,4 +1,4 @@
-name: Build Intellij Idea Fcitx
+name: Build Intellij Idea Fcitx
  
 on: push
 jobs:
@@ -8,4 +8,3 @@ jobs:
       - name: Run build script
         run: ./.github/scripts/build.sh
         shell: bash
-
