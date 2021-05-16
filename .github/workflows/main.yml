@@ -7,7 +7,6 @@ jobs:
     steps:
       - name: Run build script
         run: |
-            cd ../scripts
-            ./build.sh
+            pwd
 
 
