@@ -1,8 +1,8 @@
-name: Deploy Intellij Idea Fcitx
+name: Build Intellij Idea Fcitx
  
 on:
   push:
-    branches:
+    branches: 
       - master
 jobs:
   compile-fcitx:
