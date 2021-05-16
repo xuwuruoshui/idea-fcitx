@@ -6,5 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run build script
-        run: ../scripts/build.sh
+        run: |
+            cd ../scripts
+            build.sh
+
 
