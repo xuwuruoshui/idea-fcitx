@@ -51,17 +51,9 @@ jobs:
               libasound2-dev -y
 
 
-            sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=../rt/build/modular-sdk 
+            sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=/home/runner/work/idea-fcitx/rt/build/modular-sdk 
             sudo make images
 
 
-            cd /build/linux-x86_64-normal-server-release/images
-            sudo mv jdk jbr
-
-
-            sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=../rt/build/modular-sdk 
-            sudo make images
-
-
-            cd /build/linux-x86_64-normal-server-release/images
+            cd /home/runner/work/idea-fcitx/JetBrainsRuntime/build/linux-x86_64-normal-server-release/images
             sudo mv jdk jbr
