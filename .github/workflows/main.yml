@@ -28,10 +28,10 @@ jobs:
 
             cd rt
             chmod a+x gradlew
-            mkdir /usr/img
+            sudo mkdir /usr/img
             dd if=/dev/zero of=/usr/img/swap bs=1024 count=4096000
-            mkswap /usr/img/swap
-            swapon /usr/img/swap
+            sudo mkswap /usr/img/swap
+            sudo swapon /usr/img/swap
 
             ./gradlew -PCOMPILE_WEBKIT=true
 
