@@ -59,3 +59,9 @@ jobs:
             sudo mv jdk jbr
 
 
+            sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=../rt/build/modular-sdk 
+            sudo make images
+
+
+            cd /build/linux-x86_64-normal-server-release/images
+            sudo mv jdk jbr
