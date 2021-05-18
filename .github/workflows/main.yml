@@ -16,3 +16,4 @@ jobs:
             pwd
             mkdir demo
             ls
+        needs: compile OpenFX
