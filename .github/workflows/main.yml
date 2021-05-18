@@ -1,10 +1,14 @@
 name: Build Intellij Idea Fcitx
  
-on: push
+on: 
+  push:
+    branches: 
+    - master
 jobs:
   compile-fcitx: 
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: compile OpenFX
         run: |
             mkdir test
@@ -16,4 +20,3 @@ jobs:
             pwd
             mkdir demo
             ls
-        needs: compile OpenFX
