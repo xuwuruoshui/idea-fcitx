@@ -17,6 +17,7 @@ jobs:
             pwd
       - name: compile JetBrainsRuntime
         run: |
+            pwd
             cd ..
             pwd
             mkdir demo
