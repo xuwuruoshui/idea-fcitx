@@ -1,21 +1,84 @@
 name: Build Intellij Idea Fcitx
  
-on: 
-  push:
-    branches: 
-    - master
+on: push
 jobs:
   compile-fcitx: 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: compile OpenFX
+      - name: Clone Repository
+        uses: actions/checkout@master
+
+      - name: Build nvironment
         run: |
-            mkdir test
-            cd test
-            touch a.tx
-            pwd
-      - name: compile JetBrainsRuntime
+            sudo apt install ksh bison flex gperf build-essential libasound2-dev libgl1-mesa-dev \
+                libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libjpeg-dev \
+                libpng-dev libx11-dev libxml2-dev libxslt1-dev libxt-dev \
+                libxxf86vm-dev pkg-config x11proto-core-dev \
+                x11proto-xf86vidmode-dev libavcodec-dev mercurial \
+                libgtk2.0-dev libgtk-3-dev \
+                libxtst-dev libudev-dev libavformat-dev ant cmake ruby openjdk-11-jdk mercurial \
+                autoconf make build-essential libx11-dev \
+                libxext-dev libxrender-dev libxtst-dev libxt-dev \
+                libxrandr-dev libcups2-dev libfontconfig1-dev \
+                libasound2-dev -y
+
+      - name: Comile OpenJFX
+        env:
+              JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+              JDK_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+        run: | 
+            hg clone http://hg.openjdk.java.net/openjfx/11-dev/rt
+            cd rt
+            chmod a+x gradlew
+            sudo mkdir /usr/img
+            sudo dd if=/dev/zero of=/usr/img/swap bs=1024 count=4096000
+            sudo mkswap /usr/img/swap
+            sudo swapon /usr/img/swap
+            ./gradlew -PCOMPILE_WEBKIT=true
+            
+      - name: Compile JetBrainsRuntime
         run: |
-            pwd
-            ls
+            sudo git clone https://github.com/JetBrains/JetBrainsRuntime.git
+            cd JetBrainsRuntime
+            sudo git checkout cfc3e87f2ac27a0b8c78c729c113aa52535feff6
+            sudo wget https://raw.githubusercontent.com/prehonor/myJetBrainsRuntime/master/idea.patch
+            sudo git apply idea.patch
+            sudo sh ./configure --disable-warnings-as-errors  --with-import-modules=../rt/build/modular-sdk 
+            sudo make images
+            cd ../JetBrainsRuntime/build/linux-x86_64-normal-server-release/images
+            mv jdk jbr
+            sudo zip -r jbr-linux-x64.zip ./jbr/*
+            mv jbr-linux-x64.zip ../../../../
+            
+      - name: Assemble Artifact
+        id: assemble_artifact
+        env:
+          TZ: Asia/Shanghai
+        run: |
+          time=$(date +%Y%m%d%H%M)
+          release_tag=$time
+          release_name="jbr-linux-x64-$time"
+          echo "##[set-output name=release_name;]$release_name"
+          echo "##[set-output name=release_tag;]$release_tag"    
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release
+        env:
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+            tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
+            release_name: Release ${{ steps.assemble_artifact.outputs.release_name }}
+            draft: false
+            prerelease: true
+            
+      - name: Upload Release
+        id: upload-release-asset
+        uses: actions/upload-release-asset@master
+        env:
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./jbr-linux-x64.zip
+            asset_name: ${{ steps.assemble_artifact.outputs.release_name }}.zip
+            asset_content_type: application/zip
