@@ -24,8 +24,8 @@ jobs:
 
       - name: Comile OpenJFX
         env:
-              JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-              JDK_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+            JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+            JDK_HOME: /usr/lib/jvm/java-11-openjdk-amd64
         run: | 
             hg clone http://hg.openjdk.java.net/openjfx/11-dev/rt
             cd rt
@@ -63,7 +63,7 @@ jobs:
           
       - name: Create Release
         id: create_release
-        uses: actions/create-release
+        uses: actions/create-release@master
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
