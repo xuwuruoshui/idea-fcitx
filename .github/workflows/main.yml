@@ -18,9 +18,4 @@ jobs:
       - name: compile JetBrainsRuntime
         run: |
             pwd
-            cd ..
-            pwd
-            mkdir demo
-            ls
-            cd test
             ls
