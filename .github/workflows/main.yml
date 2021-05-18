@@ -13,10 +13,13 @@ jobs:
         run: |
             mkdir test
             cd test
+            touch a.tx
             pwd
       - name: compile JetBrainsRuntime
         run: |
             cd ..
             pwd
             mkdir demo
+            ls
+            cd test
             ls
