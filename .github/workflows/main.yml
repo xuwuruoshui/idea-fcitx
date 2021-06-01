@@ -11,6 +11,7 @@ jobs:
 
       - name: Build nvironment
         run: |
+            sudo apt-get update
             sudo apt install ksh bison flex gperf build-essential libasound2-dev libgl1-mesa-dev \
                 libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libjpeg-dev \
                 libpng-dev libx11-dev libxml2-dev libxslt1-dev libxt-dev \
